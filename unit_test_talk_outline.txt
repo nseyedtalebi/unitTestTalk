@@ -1,0 +1,46 @@
+Introduction and Background
+    Basics of software testing (can use IEEE SWEBOK for all of this)
+        Key Issues
+        Purpose
+        Limitations
+        Test Levels:
+            Unit
+            Integration
+            System
+        Test-Related Measures
+    What is unit testing?
+        Define by objective of testing as in SWEBOK
+        Also important: the dev who writes the code usu also writes the tests
+    Why should you care about unit testing?
+        That "excellence is a habit" quote (Aristotle?)
+        Important for jobs?
+        Impact on software quality?
+        Is it useful for reasearchers?
+Motivations: Why unit test?
+    Arguments for
+        If all software has bugs and it's better to find bugs early, unit testing is better than integration or system testing because it can be done earlier in the development process (cite "why bother to unit test" doc)
+        Forces developer to think in detail about requirements very early in the development process
+        Encourages writing more maintainable code because the same things that make code easy to maintain make it easy to test (better modularity)
+        Serves as a form of documentation. Well-written tests should make the expected behavior of each unit clear.
+        Serves as insurance against regressions. Put another way, allows developer to refactor with greater confidence. If you don't worry about breaking something in a complex piece of software, you should be. 
+    Arguments against
+        It's slow/time-consuming
+            Not as slow as finding bugs late in the process
+        It doesn't tell me anyting new, only that the code does what it does
+            This misses the fact that unit tests should be designed based on the programmer's knowledge of what the code SHOULD do. Also it helps prevent regressions
+        Other kinds of testing will catch the bugs
+            Perhaps, but it is much more difficult to get good test coverage with higher-level testing. As systems become more complex, it becomes harder to test them.
+        My changes aren't worth testing/I can see what the result will be
+            This is just false - you only "think" you can see the result. Any change at all can radically alter a program's behavior e.g. commenting out an entire file by adding a single character. It also ignores the value of unit tests to protect against regressions
+            
+Methods: How to unit test
+    Test data selection
+        Mutation
+    Tools
+        Automation
+            How important?
+Limitations
+    Why not exhaustive testing?
+    Examples of things unit testing won't detect
+        Use this part to show how other kinds of testing are needed
+    
