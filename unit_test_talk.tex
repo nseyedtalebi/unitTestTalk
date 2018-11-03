@@ -1,0 +1,196 @@
+\documentclass{beamer}
+
+\usepackage{default}
+\usepackage{csquotes}[]
+
+
+\begin{document}
+\author{Nima Seyedtalebi}
+\title{Is Unit Testing Worthwhile?}
+%\logo{}
+\institute{University of Kentucky}
+\date{November 7, 2018}
+%\subject{}
+%\setbeamercovered{transparent}
+%\setbeamertemplate{navigation symbols}{}
+
+\begin{frame}[plain]
+\maketitle
+\end{frame}
+
+\begin{frame}
+\frametitle{Background}
+\begin{itemize}
+	\item The IEEE Software Engineering Body of Knowledge (SWEBOK) provides a concise definition of software testing:
+	
+		\blockcquote{SWEBOK}{Software testing consists of the \textit{dynamic} verification that a program provides \textit{expected} behaviors on a \textit{finite} set of test cases, suitably \textit{selected} from the usually infinite execution}
+ 	\item Key points:
+	\begin{itemize}
+ 		\item Dynamic: Input and source code are not always enough to determine behavior
+		\item Expected: We must be able to define expected behavior to test for it
+ 		\item Finite: The set of possible test cases is practically infinite, so we must choose a finite subset
+ 		\item Selected: Test cases can vary in usefulness considerably, so the choice is important
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Different Kinds of Testing}
+\begin{itemize}
+	\item Testing can be classified by target or objective
+	\item Classifying by target gives three levels:
+	\begin{itemize}
+		\item Unit Testing: Small pieces of software testable in isolation
+		\item Integration Testing: Interactions between software components
+		\item System Testing: An entire system
+	\end{itemize}
+	\item Classifications by objective: 
+	\begin{itemize}
+		\item Regression testing
+		\item Acceptance testing
+		\item Security testing
+		\item Performance testing
+		\item Stress testing
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{What is Unit Testing?}
+\begin{itemize}
+	\item From the SWEBOK:\blockcquote{SWEBOK}{Unit testing verifies the functioning in isolation of software elements that are separately testable.}
+	\begin{itemize}
+ 		\item What constitutes a unit? It depends on context
+ 		\item Developers may have differing ideas about what constitutes a unit
+	\end{itemize}
+	\item Usually performed by the developer of the unit or someone with programming skills and access to the source code
+	\item Surveys suggest unit testing is an important testing method that sees widespread use
+	\item Unit testing is sometimes conflated with other kinds of testing
+	\begin{itemize}
+		\item E.g. a "unit test" that relies on a database connection is not a unit test under the definition given
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Challenges with Unit Testing}
+\begin{itemize}
+	\item The test oracle problem: We must know beforehand what the code is supposed to do
+	\item Exhaustive testing is impractical at best and impossible at worst
+	\item Consider a program that takes a Unicode string as an argument and writes it to STDOUT:
+	\begin{itemize}
+		\item The Unicode 11.0 standard contains 137,374 different characters\cite{unicodestd},so $137374^n$ permutations of length $n$
+		\item Such a program depends on the behavior of STDOUT. Truly exhaustive testing would have to account for this
+	\end{itemize}
+	\item Some tests are more useful than others. How do we choose the best set of tests?
+	\item How do we know if we have enough tests?
+	\item How do we know if unit testing is effective?
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Common Test Techniques}
+\begin{itemize}
+	\item Ad-hoc: Choose test inputs based on intuition and experience
+	\item Boundary-value Analysis: Choose inputs close to boundaries in the input domain e.g. largest and smallest possible values for numerical datatypes
+	\item Control Flow Analysis: Choose tests that follow the different possible paths of execution in the code
+	\begin{itemize}
+		\item Statement coverage, Branch Coverage, and Decision/Condition coverage are different kinds of coverage
+		\item Used as a measure of test sufficiency as well
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Software Testing Metrics}
+\begin{itemize}
+	\item Statement coverage. Use example from 1978 paper about why two cases is not enough to fully test even a simple conditional
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Tool Support}
+\begin{itemize}
+	\item Testing frameworks
+	\item JUnit, Mockito, PowerMock in particular
+	\item Continuous Integration
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Arguments For}
+\begin{itemize}
+	\item 
+\end{itemize}
+\end{frame}
+\end{document}
+
+\begin{frame}
+\frametitle{Arguments Against}
+\begin{itemize}
+	\item 
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Limitations of Unit Testing}
+\begin{itemize}
+	\item 
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{How Can We Assess Testing Behaviors and Outcomes Empirically?}
+\begin{itemize}
+	\item How do we measure software quality? What does that even mean?
+	\item Callback to metrics slide
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{What Do the Available Data Suggest?}
+\begin{itemize}
+	\item 
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{What About Test-Driven Development (TDD)?}
+\begin{itemize}
+	\item What is it?
+	\item What are the benefits?
+	\item How does TDD related to unit testing practice?
+	\item How does TDD affect software quality?
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Pitfalls to Avoid}
+\begin{itemize}
+	\item 
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{There's Work to be Done!}
+\begin{itemize}
+	\item 
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusions}
+\begin{itemize}
+	\item 
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{References}
+	\bibliographystyle{plain}
+	\bibliography{unit_test_talk}
+\end{frame}
+
+\end{document}
