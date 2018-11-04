@@ -73,84 +73,114 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{Challenges with Unit Testing}
+\frametitle{Challenges in Software Testing}
 \begin{itemize}
-	\item The test oracle problem: We must know beforehand what the code is supposed to do
-	\item Exhaustive testing is impractical at best and impossible at worst
-	\item Consider a program that takes a Unicode string as an argument and writes it to STDOUT:
+	\item Tests that are written without referring to some external specification can only suggest that the code does what the developer intended
+	\item Exhaustive testing is impractical at best and impossible at worst. Consider a program like "echo" in Unix that takes a Unicode string argument:
 	\begin{itemize}
-		\item The Unicode 11.0 standard contains 137,374 different characters\cite{unicodestd},so $137374^n$ permutations of length $n$
-		\item Such a program depends on the behavior of STDOUT. Truly exhaustive testing would have to account for this
+		\item With Unicode 11, $137374^n$ permutations of length $n$ are possible\cite{unicodestd}
 	\end{itemize}
 	\item Some tests are more useful than others. How do we choose the best set of tests?
 	\item How do we know if we have enough tests?
-	\item How do we know if unit testing is effective?
+	\item How do we know if testing is effective?
+	\item Testing always involves a trade-off. More tests may find more problems, but tests take time to write and maintain
 \end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{Common Test Techniques}
-\begin{itemize}
+\begin{itemize} 
 	\item Ad-hoc: Choose test inputs based on intuition and experience
 	\item Boundary-value Analysis: Choose inputs close to boundaries in the input domain e.g. largest and smallest possible values for numerical datatypes
-	\item Control Flow Analysis: Choose tests that follow the different possible paths of execution in the code
+	\item Control Flow Analysis: Choose tests that follow a subset\footnote{not necessarily a proper subset} of the possible paths through the code
 	\begin{itemize}
-		\item Statement coverage, Branch Coverage, and Decision/Condition coverage are different kinds of coverage
-		\item Used as a measure of test sufficiency as well
+		\item Often defined in terms of coverage. A piece of code is "covered" if it executes at least once
+		\item Statement, branch, and decision/condition coverage are examples 
+		\item Coverage is used as a measure of test sufficiency as well
 	\end{itemize}
+	\item These techniques could also be considered different kinds of testing in some contexts
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Software Testing Metrics}
+\frametitle{Software Metrics}
 \begin{itemize}
-	\item Statement coverage. Use example from 1978 paper about why two cases is not enough to fully test even a simple conditional
+	\item Failure: An undesired behavior
+	\item Fault: The cause of a failure
+	\item Defect: A fault or failure
+	\item Measures of the program under test:
+	\begin{itemize}
+		\item Fault classification, count, and density
+	\end{itemize}
+	\item Measures of the test set:
+	\begin{itemize}
+		\item Coverage, often expressed as a percentage
+	\end{itemize}
+	\item General software measures:
+	\begin{itemize}
+		\item Code size
+		\item Complexity
+	\end{itemize}
+	\item Survey data are used to measure things that are difficult or impossible to measure objectively like perceived quality or ease of maintenance
 \end{itemize}
 \end{frame}
-
-
 
 \begin{frame}
-\frametitle{Tool Support}
+\frametitle{Arguments for Unit Testing}
 \begin{itemize}
-	\item Testing frameworks
-	\item JUnit, Mockito, PowerMock in particular
-	\item Continuous Integration
+	\item Helps uncover defects early in the development process
+	\item Allows developers to refactor with confidence because breaking changes will cause the tests to fail
+	\item Can encourage good software design
+	\begin{itemize}
+		\item Unit testing requires the unit under test (UUT) to be isolated
+		\item Tightly-coupled units require more effort to test
+		\item Tightly-coupled units are less robust
+		\item Difficulty or undue effort in testing indicates suggest code needs refactoring to reduce coupling
+	\end{itemize}
+	\item Tests serve as a form of documentation
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Arguments For}
+\frametitle{Unit Testing Considered Harmful: Arguments Against}
 \begin{itemize}
-	\item 
+	\item Unit testing does not positively affect code quality in practice
+	\begin{itemize}
+		\item Most tests only assess whether the code does what the developer intended
+		\item Developers write lower-quality code to meet coverage-based requirements
+	\end{itemize}
+	\item Low-quality tests are worse than no tests at all since they must be maintained
+	\item Unit tests provide a false sense of security
+	\item Unit testing costs more time than it saves
+	\item Integration and system testing are more effective at uncovering defects
 \end{itemize}
 \end{frame}
-\end{document}
 
 \begin{frame}
-\frametitle{Arguments Against}
+\frametitle{What Does the Research Say?}
 \begin{itemize}
-	\item 
+	\item No correlation found yet between unit testing and code quality\cite{codeQual}
+	\item No correlation found between coverage-based methods for determining test sufficiency  quality and code quality\cite{codeQual}
+	\item Developers need a better understanding of what makes a unit test good\cite{unitTestSurv}
+	\item Test-Driven Development (TDD), of which unit testing is an integral part, seems to measurably improve software quality\cite{TDDQual},\cite{doesTDDWork}
+	\item Automated test generation is in use, but mostly used in cases where specifications are not required\cite{unitTestSurv}
 \end{itemize}
 \end{frame}
+
 
 \begin{frame}
 \frametitle{Limitations of Unit Testing}
+Unit tests:
 \begin{itemize}
-	\item 
+	\item Cannot detect faults in the interaction between units or between subsystems
+	\item Require some way of specifying the "correct" behavior of the unit
+	\item Add to the complexity of the software under development
+	\item Can contain defects
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{How Can We Assess Testing Behaviors and Outcomes Empirically?}
-\begin{itemize}
-	\item How do we measure software quality? What does that even mean?
-	\item Callback to metrics slide
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{What Do the Available Data Suggest?}
+\frametitle{An Example of Several Unit Test Blunders}
 \begin{itemize}
 	\item 
 \end{itemize}
@@ -167,7 +197,7 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{Pitfalls to Avoid}
+\frametitle{Automated Test Generation}
 \begin{itemize}
 	\item 
 \end{itemize}
@@ -176,7 +206,15 @@
 \begin{frame}
 \frametitle{There's Work to be Done!}
 \begin{itemize}
-	\item 
+	\item Talk about some open questions
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Difficulties in Research}
+\begin{itemize}
+	\item Make good use of "Threats to validity" section of those survey-based papers
+	\item Pull out examples of challanges for papers without survey data
 \end{itemize}
 \end{frame}
 
