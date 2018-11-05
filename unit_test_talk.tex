@@ -6,7 +6,7 @@
 
 \begin{document}
 \author{Nima Seyedtalebi}
-\title{Is Unit Testing Worthwhile?}
+\title{Is Unit Testing Worth The Trouble?}
 %\logo{}
 \institute{University of Kentucky}
 \date{November 7, 2018}
@@ -88,17 +88,17 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{Common Test Techniques}
+\frametitle{Common Techniques for Choosing a Test Set}
 \begin{itemize} 
 	\item Ad-hoc: Choose test inputs based on intuition and experience
 	\item Boundary-value Analysis: Choose inputs close to boundaries in the input domain e.g. largest and smallest possible values for numerical datatypes
-	\item Control Flow Analysis: Choose tests that follow a subset\footnote{not necessarily a proper subset} of the possible paths through the code
+	\item Code-based analysis techniques:
 	\begin{itemize}
-		\item Often defined in terms of coverage. A piece of code is "covered" if it executes at least once
-		\item Statement, branch, and decision/condition coverage are examples 
-		\item Coverage is used as a measure of test sufficiency as well
+		\item Control Flow Analysis: Choose tests that follow a subset of the possible control flow paths through the code
+		\item Data Flow Analysis: Choose tests that follow a subset of the possible data flow paths through the code
+		\item Mutation Analysis: Choose tests that fail when the program under test is changed slightly
 	\end{itemize}
-	\item These techniques could also be considered different kinds of testing in some contexts
+	\item The code-based techniques are often used to assess test sufficiency
 \end{itemize}
 \end{frame}
 
@@ -108,20 +108,91 @@
 	\item Failure: An undesired behavior
 	\item Fault: The cause of a failure
 	\item Defect: A fault or failure
-	\item Measures of the program under test:
+	\item General software measures:
+	\begin{itemize}
+		\item Code size (lines of code)
+		\item Number of independent paths through code (cyclomatic complexity)
+		\item Degree of nesting
+		\item Average number of parameters
+		\item Coupling Between Objects (CBO)
+		\item Fan-out, or how many classes does this class use?
+		\item Fan-in, or how many classes use this class?
+	\end{itemize}
+	\item Survey data are used to measure things that are difficult to measure objectively
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Code Quality and Test Sufficiency}
+	\begin{itemize}
+	\item Test quality, test sufficiency, and the quality of the software under test are distinct
+	\item Measures of quality:
 	\begin{itemize}
 		\item Fault classification, count, and density
 	\end{itemize}
-	\item Measures of the test set:
+	\item Measures of test sufficiency:
 	\begin{itemize}
 		\item Coverage, often expressed as a percentage
+		\item Mutation score
 	\end{itemize}
-	\item General software measures:
+	\item The number of defects detected by a test suite can serve as a measure of test quality or sufficiency
 	\begin{itemize}
-		\item Code size
-		\item Complexity
+		\item Quality: Test suite A is better than suite B because it found more bugs
+		\item Sufficiency: Test suite A is sufficient because it found at least $n$ bugs
 	\end{itemize}
-	\item Survey data are used to measure things that are difficult or impossible to measure objectively like perceived quality or ease of maintenance
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Control-Flow and Data-Flow Analysis}
+	\begin{itemize}
+	\item Units contain assignment statements and conditional statements
+	\item Units have well-defined entry and exit points
+	\item A \textit{path} is a sequence of instructions
+	\item Conditional statements determine control flow
+	\item Assignment statements determine data flow
+	\item Control-flow and data-flow analysis both involve selecting tests so their execution follows different paths through the code
+	\item They differ in perspective and how paths are selected:
+	\begin{itemize}
+		\item Control flow analysis considers paths between the entry and exit points
+		\item Data flow analysis considers paths that start with an assignment statement and end with the last use of the variable
+	\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Coverage Metrics}
+\begin{itemize}
+	\item Coverage metrics assess how many execution paths are tested versus how many are possible
+	\item Metrics are based on desired level of coverage \item More complete coverage means exploring a larger portion of the possible execution paths
+	\item Path selection criteria for control-flow analysis:
+	\begin{itemize}
+		\item Statement Coverage: All statements are executed at least once
+		\item Branch Coverage: Every branch is taken at least once
+		\item Predicate Coverage: Every combination of truth value for every conditional is tried at least once
+		\item All-Paths Coverage: Every execution path is tried at least once
+	\end{itemize}
+	\item Path selection criteria for data-flow analysis are based on when variables are defined and used
+\end{itemize}
+\end{frame}
+%I can add a slide for details on data flow analysis if needed
+\begin{frame}
+\frametitle{Mutation Analysis}
+\begin{itemize}
+	\item Mutation score comes from mutation analysis, first proposed in a 1978 article "Hints on Test Data Selection"\cite{hintsOnTestData}
+	\item Key insights:
+	\begin{itemize}
+		\item Programmers usually write software that is "almost correct"
+		\item Finding simple errors uncovers complex errors
+	\end{itemize}
+	\item Used to assess test data sufficiency
+	\item Mutation analysis involves making small, syntactically-legal changes to the unit under test, producing \textit{mutants}
+	\begin{itemize}
+		\item If the mutant causes some test to fail, it is said to be \textit{dead}
+		\item If the mutant does not cause any tests to fail, it is said to be \textit{alive},\textit{killable}, or \textit{stubborn}
+		\item Mutants are killed when the test set is sufficiently sensitive to detect the mutation
+	\end{itemize}
+	\item Mutation score is the number of mutants killed divided by the total number of mutants
 \end{itemize}
 \end{frame}
 
@@ -142,7 +213,7 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{Unit Testing Considered Harmful: Arguments Against}
+\frametitle{Arguments Against, or Unit Testing Considered Harmful}
 \begin{itemize}
 	\item Unit testing does not positively affect code quality in practice
 	\begin{itemize}
@@ -162,7 +233,7 @@
 	\item No correlation found yet between unit testing and code quality\cite{codeQual}
 	\item No correlation found between coverage-based methods for determining test sufficiency  quality and code quality\cite{codeQual}
 	\item Developers need a better understanding of what makes a unit test good\cite{unitTestSurv}
-	\item Test-Driven Development (TDD), of which unit testing is an integral part, seems to measurably improve software quality\cite{TDDQual},\cite{doesTDDWork}
+	\item Test-Driven Development (TDD), of which unit testing is an integral part, seems to measurably improve software quality in some cases\cite{tddMeta},\cite{doesTDDWork}
 	\item Automated test generation is in use, but mostly used in cases where specifications are not required\cite{unitTestSurv}
 \end{itemize}
 \end{frame}
@@ -170,65 +241,95 @@
 
 \begin{frame}
 \frametitle{Limitations of Unit Testing}
-Unit tests:
 \begin{itemize}
 	\item Cannot detect faults in the interaction between units or between subsystems
-	\item Require some way of specifying the "correct" behavior of the unit
+	\item 
 	\item Add to the complexity of the software under development
-	\item Can contain defects
+	\begin{itemize}
+		\item Bad unit tests have costs beyond the time to write them
+		\item Good unit tests that are hard to maintain may be worse than no unit tests at all
+	\end{itemize}
+	\item Any test can contain defects
+	\item Cover only a tiny fraction of the state space
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{An Example of Several Unit Test Blunders}
+\frametitle{What About Test-Driven Development?}
 \begin{itemize}
-	\item 
+	\item Test-driven development (TDD) is a development style built around two rules:\cite{tddByExample}
+	\begin{itemize}
+		\item "Write new code only if you first have a failing automated test"
+		\item "Eliminate duplication"
+	\end{itemize}
+	\item Important points:
+	\begin{itemize}
+		\item Test: Unit tests are written before new code
+		\item Failing: The test must fail at first
+		\item Automated: Tools are used to run tests and collect results
+	\end{itemize}
+	\item "The goal is clean code that works..."\cite{tddByExample}
+	\begin{itemize}
+		\item Clean code has the smallest possible number of dependencies
+		\item Empirical studies of TDD use different measures
+		\item The ambiguity was probably intentional\footnote{\textit{Test-Driven Development By Example} says,"TDD is an awareness of the gap between decision and feedback during programming,and techniques to control that gap"}
+	\end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{What About Test-Driven Development (TDD)?}
+\frametitle{...and the Research?}
 \begin{itemize}
-	\item What is it?
-	\item What are the benefits?
-	\item How does TDD related to unit testing practice?
-	\item How does TDD affect software quality?
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Automated Test Generation}
-\begin{itemize}
-	\item 
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{There's Work to be Done!}
-\begin{itemize}
-	\item Talk about some open questions
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Difficulties in Research}
-\begin{itemize}
-	\item Make good use of "Threats to validity" section of those survey-based papers
-	\item Pull out examples of challanges for papers without survey data
+	\item A 2008 article \cite{doesTDDWork} found modest improvements in code size and complexity but not in coupling or cohesion
+	\item A 2013 meta-analysis\cite{tddMeta} of 27 empirical studies found that TDD "results in a small improvement in quality but results on productivity are inconclusive."
+	\item A recent (July 2018) article\cite{whatWeKnowTDD} called "What Do We (Really) Know About Test-Driven Development?" offers the following:
+	\begin{itemize}
+		\item Use of TDD is uncommon in practice
+		\item TDD does appear to improve some measures of quality in some cases
+		\item Evidence for the effects of TDD on productivity is inconclusive 
+		\item The order of testing is not the important part of TDD
+		\item Using a short development cycle had much more impact on quality than the order of testing (test-first versus test-last)
+	\end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{Conclusions}
 \begin{itemize}
-	\item 
+	\item Unit testing \textit{can} be worth the trouble, but it is not sufficient by itself to improve software quality
+	\item An iterative development process with short, gradual steps seems to improve software quality
+	\item Unit testing and TDD are tools. Like other tools, they work best in the hands of those that know how to use them
+	\item Test quality is very important since we are limited to a very small subset of possibilities when testing
+	\item Testing is a balancing act
+	\begin{itemize}
+		\item Test selection is an important problem
+		\item Tests are not free to maintain, even if a machine writes them for you
+	\end{itemize}
+	\item Automation and tool support is a poor substitute for thinking about design
 \end{itemize}
-\end{frame}
+\end{frame}	
 
 \begin{frame}
-\frametitle{References}
+\frametitle{So What Can Be Done?}
+\begin{itemize}
+\item "A Survey On Unit Testing Practice and Problems"\cite{unitTestSurv} suggests:
+\begin{itemize}
+	\item Developers need help identifying what to test and whether a given test is good or not
+	\item Automatic  test generation helps with the "how" of testing but not the "what"
+	\item The question of "what" is shared across all types of testing
+	\item Tests should be realistic
+\end{itemize}
+\item Furthermore:
+\begin{itemize}
+	\item Software design is a skill that must be learned and practiced 
+	\item Though part of design, testing is a distinct skill that must be learned and practiced
+\end{itemize}
+\end{itemize}
+\end{frame}
+References:
+
+	\nocite{*}
 	\bibliographystyle{plain}
 	\bibliography{unit_test_talk}
-\end{frame}
 
 \end{document}
