@@ -27,6 +27,9 @@
  	\item Key points:
 	\begin{itemize}
  		\item Dynamic: Input and source code are not always enough to determine behavior
+ 		\begin{itemize}
+ 			\item Examples: I/O, SLF4J
+ 		\end{itemize}
 		\item Expected: We must be able to define expected behavior to test for it
  		\item Finite: The set of possible test cases is practically infinite, so we must choose a finite subset
  		\item Selected: Test cases can vary in usefulness considerably, so the choice is important
@@ -73,10 +76,29 @@
 \end{frame}
 
 \begin{frame}
+\frametitle{Testing Terms and Software Metrics}
+\begin{itemize}
+	\item Failure: An undesired behavior
+	\item Fault: The cause of a failure
+	\item Defect: A fault or failure
+	\item General software measures:
+	\begin{itemize}
+		\item Code size (lines of code)
+		\item Number of independent paths through code (cyclomatic complexity)
+		\item Degree of nesting
+		\item Average number of parameters
+		\item Fan-out, or how many classes does this class use?
+		\item Fan-in, or how many classes use this class?
+	\end{itemize}
+	\item Survey data are used to measure things that are difficult to measure objectively
+\end{itemize}
+\end{frame}
+
+\begin{frame}
 \frametitle{Challenges in Software Testing}
 \begin{itemize}
 	\item Tests that are written without referring to some external specification can only suggest that the code does what the developer intended
-	\item Exhaustive testing is impractical at best and impossible at worst. Consider a program like "echo" in Unix that takes a Unicode string argument:
+	\item Exhaustive testing is impractical at best and impossible at worst. Consider a program similar to "echo" in Unix that takes a Unicode string argument:
 	\begin{itemize}
 		\item With Unicode 11, $137374^n$ permutations of length $n$ are possible\cite{unicodestd}
 	\end{itemize}
@@ -89,7 +111,7 @@
 
 \begin{frame}
 \frametitle{Common Techniques for Choosing a Test Set}
-\begin{itemize} 
+\begin{itemize}
 	\item Ad-hoc: Choose test inputs based on intuition and experience
 	\item Boundary-value Analysis: Choose inputs close to boundaries in the input domain e.g. largest and smallest possible values for numerical datatypes
 	\item Code-based analysis techniques:
@@ -102,46 +124,26 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}
-\frametitle{Software Metrics}
-\begin{itemize}
-	\item Failure: An undesired behavior
-	\item Fault: The cause of a failure
-	\item Defect: A fault or failure
-	\item General software measures:
-	\begin{itemize}
-		\item Code size (lines of code)
-		\item Number of independent paths through code (cyclomatic complexity)
-		\item Degree of nesting
-		\item Average number of parameters
-		\item Coupling Between Objects (CBO)
-		\item Fan-out, or how many classes does this class use?
-		\item Fan-in, or how many classes use this class?
-	\end{itemize}
-	\item Survey data are used to measure things that are difficult to measure objectively
-	\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Code Quality and Test Sufficiency}
-	\begin{itemize}
-	\item Test quality, test sufficiency, and the quality of the software under test are distinct
-	\item Measures of quality:
-	\begin{itemize}
-		\item Fault classification, count, and density
-	\end{itemize}
-	\item Measures of test sufficiency:
-	\begin{itemize}
-		\item Coverage, often expressed as a percentage
-		\item Mutation score
-	\end{itemize}
-	\item The number of defects detected by a test suite can serve as a measure of test quality or sufficiency
-	\begin{itemize}
-		\item Quality: Test suite A is better than suite B because it found more bugs
-		\item Sufficiency: Test suite A is sufficient because it found at least $n$ bugs
-	\end{itemize}
-	\end{itemize}
-\end{frame}
+%\begin{frame}
+%\frametitle{Code Quality and Test Sufficiency}
+%	\begin{itemize}
+%	\item Test quality, test sufficiency, and the quality of the software under test are distinct
+%\item Measures of quality:
+%\begin{itemize}
+%	\item Fault classification, count, and density
+%\end{itemize}
+%\item Measures of test sufficiency:
+%\begin{itemize}
+%	\item Coverage, often expressed as a percentage
+%	\item Mutation score
+%\end{itemize}
+%\item The number of defects detected by a test suite can serve as a measure of test quality or sufficiency
+%\begin{itemize}
+%	\item Quality: Test suite A is better than suite B because it found more bugs
+%	\item Sufficiency: Test suite A is sufficient because it found at least $n$ bugs
+%\end{itemize}
+%\end{itemize}
+%\end{frame}
 
 \begin{frame}
 \frametitle{Control-Flow and Data-Flow Analysis}
@@ -197,6 +199,31 @@
 \end{frame}
 
 \begin{frame}
+\frametitle{What Does a Good Test Look Like?}
+\begin{itemize}
+	\item Bowes et al.\cite{howGoodAreMyTests} wrote a paper called "How Good Are My Tests" that contained fifteen principles to follow when writing unit tests
+	\item Some of them include:
+	\begin{itemize}
+		\item "Simplicity"
+		\item "Readability and Comprehension"
+		\item "Single-responsibility" (fail for one reason)
+		\item "Avoid over-protectiveness" (e.g. redundant assertions)
+		\item "Test behavior (not implementation)"
+		\item "Tests should not dictate the code"
+		\item "A test should fail." Tests that never fail are useless
+		\item "Reliability", and no nondeterminism
+		\item "Happy vs. sad tests"
+		\begin{itemize}
+			\item "Happy" tests verify system behavior
+			\item "Sad" tests break the system
+			\item Both are useful, but confirmation bias creeps in and causes us to favor "happy" tests
+		\end{itemize}
+		
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
 \frametitle{Arguments for Unit Testing}
 \begin{itemize}
 	\item Helps uncover defects early in the development process
@@ -239,20 +266,19 @@
 \end{frame}
 
 
-\begin{frame}
-\frametitle{Limitations of Unit Testing}
-\begin{itemize}
-	\item Cannot detect faults in the interaction between units or between subsystems
-	\item 
-	\item Add to the complexity of the software under development
-	\begin{itemize}
-		\item Bad unit tests have costs beyond the time to write them
-		\item Good unit tests that are hard to maintain may be worse than no unit tests at all
-	\end{itemize}
-	\item Any test can contain defects
-	\item Cover only a tiny fraction of the state space
-\end{itemize}
-\end{frame}
+%\begin{frame}
+%\frametitle{Limitations of Unit Testing}
+%\begin{itemize}
+%	\item Cannot detect faults in the interaction between units or between subsystems
+%	\item Add to the complexity of the software under development
+%	\begin{itemize}
+%		\item Bad unit tests have costs beyond the time to write them
+%		\item Good unit tests that are hard to maintain may be worse than no unit tests at all
+%	\end{itemize}
+%	\item Any test can contain defects
+%	\item Cover only a tiny fraction of the state space
+%\end{itemize}
+%\end{frame}
 
 \begin{frame}
 \frametitle{What About Test-Driven Development?}
